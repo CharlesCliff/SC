@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/course_img"
+        android:layout_width="80dp"
+        android:layout_height="120dp"
+        android:src="@drawable/cn5"/>
+
+    <TextView
+        android:id="@+id/course_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_toRightOf="@id/course_img"
+        android:textSize="17sp"></TextView>
+
+    <TextView
+        android:id="@+id/course_introduction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_toRightOf="@id/course_img"
+        android:layout_below="@id/course_name"></TextView>
+</RelativeLayout>

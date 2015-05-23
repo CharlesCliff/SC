@@ -1,0 +1,235 @@
+{%extends "base.html"%}
+{%load staticfiles%}
+{#title block#}
+{%block title%}
+    {{title}}
+{%endblock%}
+{%block middle%}
+	<div class="container-fluid" id="project">
+	<div class="row">
+		<div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
+			<h1>{{project.name}}</h1>	
+		</div>
+	</div>	
+	<div class="container">
+		<div class="col-lg-2 col-md-2 col-sm-2"></div>
+		<div class="col-lg-8 col-md-8 col-sm-8">
+			<div class="container" id="question">
+				<div class="row">
+					<div class="col-lg-3 col-md-3 col-sm-3">
+						<button class="btn btn-primary" id="addquestion" data-toggle="modal" data-target="#addQuestionModal">添加题目</button>
+					</div>
+					{%if beginstatus%}
+					<div class="col-lg-3 col-md-3 col-sm-3">
+					<form action="{%url 'course_begin_group' %}" method="POST">
+						<input type="submit" class="btn btn-primary" value="开始分组"/> 
+					</form>
+					</div>
+					{%endif%}
+					{%if endstatus%}
+					<div class="col-lg-3 col-md-3 col-sm-3">
+					<form action="{%url 'course_end_group' %}" method="POST">
+						<input type="submit" class="btn btn-primary" value="结束分组"/> 
+					</form>
+					</div>
+					{%endif%}
+					{%if rollbackstatus%}
+					<div class="col-lg-3 col-md-3 col-sm-3">
+					<form action="{%url 'course_rollback_group' %}" method="POST">
+						<input type="submit" class="btn btn-primary" value="重新分组"/> 
+					</form>
+					</div>
+					{%endif%}
+				</div>
+				<br/><br/>
+				<div class="row" id="question-row">
+					<div class="col-lg-6">
+						<table class="table table-bordered" id="question-table">
+							<thead>
+								<tr>
+									<th>编号</th>
+									<th>题目名称</th>
+									<th>每组数量</th>
+									<th>最大组数</th>
+								</tr>
+							</thead>						
+							<tbody>
+								{%if questions%}
+									{%for q in questions%}
+									<tr>
+										<td>{{q.qid}}</td>
+										<td>{{q.name}}</td>
+										<td>{{q.number_per_group}}</td>
+										<td>{{q.max_group}}</td>
+									</tr>
+										
+									{%endfor%}
+								{%endif%}
+								<!--
+								<tr>
+									<td>1</td>
+									<td>智慧课堂</td>
+									<td>4</td>
+									<td>5</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>车载网络</td>
+									<td>5</td>
+									<td>3</td>
+								</tr>
+								-->
+							</tbody>
+						</table>
+					</div>
+				</div><!-- end of question part row-->
+			</div>
+			<hr/>
+				<div class="container" id="student-list" >
+					<div class="row">
+						<label>学生情况:</label>
+						<button class="btn btn-default">Show</button>
+					</div>
+					<br/><br/>
+					<div class="row">
+							<ul>
+								<li>chenyang</li>
+								<li>lizhengtang</li>
+								<li>duanyichun</li>
+							</ul>	
+					</div>
+				</div><!--end of student list part-->
+				<hr/>
+				<div class="container" id="group-list">
+					<div class="row">
+						<label>分组结果:</label>	
+						<button class="btn btn-primary">开始分组</button>
+					</div>
+					<br/><br/>
+					<div class="col-lg-6">
+						<table class="table table-bordered" id="group-outcome">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Question Name</th>
+									<th>Student list</th>
+								</tr>	
+							</thead>	
+							<tbody>
+								{%if group_outcome%}
+									{%for gout in group_outcome%}
+										<tr>
+											<td>{{gout.gid}}</td>
+											<td>{{gout.qname}}</td>
+											<td>{%for s in gout.studentlist%}
+												{{s}}, {%endfor%}</td>
+										</tr>
+									{%endfor%}
+								{%endif%}
+								<!--
+								<tr>
+									<td>1</td>
+									<td>zhi hui ke tang</td>
+									<td>chenyang,lizhengtang</td>
+								</tr>-->
+							</tbody>
+						</table>
+					</div>
+				</div><!--end of group list-->
+				
+		</div>
+	</div>
+</div><!--end of project part-->
+
+
+ <!--Add Question Modal-->
+			<div class="modal fade" id="addQuestionModal" tabindex="-1" role="dialog" aria-labelledby="addQuestionModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&times;</span>
+								<span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="addQuestionModalLabel">添加题目</h4>
+						</div><!--end of modal header-->
+						<div class="modal-body">
+							<form role="form-horizontal" method="POST" action="{% url 'project_add_question' %}">
+								
+								<div class="row">
+									<div class="form-group">
+										<!--<div class="col-lg-1 col-md-1 col-sm-1"></div>-->
+										<div class="col-lg-3 col-md-3 col-sm-3 col-lg-offset-2 col-md-offset-1 col-sm-offset-1">
+											<label for="question-name" class="control-label">题目ID:</label>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<input type="text" class="form-control" id="question-name" name="question_id" />
+										</div>
+									</div>
+								</div>
+								<br/>
+								<div class="row">
+									<div class="form-group">
+										<!--<div class="col-lg-1 col-md-1 col-sm-1"></div>-->
+										<div class="col-lg-3 col-md-3 col-sm-3 col-lg-offset-2 col-md-offset-1 col-sm-offset-1">
+											<label for="question-name" class="control-label">题目名称:</label>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<input type="text" class="form-control" id="question-name" name="question_name" />
+										</div>
+									</div>
+								</div>
+								<br/>
+								<div class="row">
+									<div class="form-group">
+										<!--<div class="col-lg-1 col-md-1 col-sm-1"></div>-->
+										<div class="col-lg-3 col-md-3 col-sm-3 col-lg-offset-2 col-md-offset-1 col-sm-offset-1">
+											<label for="per-number" class="control-label">每组人数:</label>	
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<input type="text" class="form-control" id="per-number" name="per_number"/>
+										</div>
+									</div>
+									</div>
+								<br/>
+								<div class="row">
+									<div class="form-group">
+										<!--<div class="col-lg-1 col-md-1 col-sm-1"></div>-->
+										<div class="col-lg-3 col-md-3 col-sm-3 col-lg-offset-2 col-md-offset-1 col-sm-offset-1">
+											<label for="max-group-number" class="control-label">最大组数:</label>	
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 ">
+											<input type="text" class="form-control" id="max-group-number" name="max_group"/>
+										</div>
+									</div>
+								</div>
+								<br/>
+								<div class="row">
+									<div class="form-group">
+										<!--<div class="col-lg-1 col-md-1 col-sm-1"></div>-->
+										<div class="col-lg-3 col-md-3 col-sm-3 col-lg-offset-2 col-md-offset-1 col-sm-offset-1">
+											<label for="describe" class="control-label">题目描述:</label>	
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 ">
+											<input type="text" class="form-control" id="describe" name="describe"/>
+										</div>
+									</div>
+								</div>
+								<br/>
+								<div class="row">
+									<div class="form-group">
+										<div class="col-lg-offset-9 col-md-offset-8 col-sm-offset-8">
+											<input class="btn btn-primary" type="submit" value="提交"/>
+										</div>
+									</div>
+								</div>
+							</form>	
+						</div><!--end of modal body-->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
+						</div><!--end of footer-->
+					</div><!--end of content-->
+				</div><!--end of dialog-->	
+			</div><!---end of modal-->
+	
+{%endblock%}

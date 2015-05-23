@@ -1,0 +1,105 @@
+{%extends "base.html" %}
+{#title block#}
+{%block title%}
+    {{title}}
+{%endblock%}
+{%block middle%}
+	<div class="container">
+	<div >
+		<br/>
+		<br/>
+		</div>
+	<div class="row">
+		<div class="col-lg-4 col-lg-offset-3">
+			<h3>个人信息</h3>
+			
+				<label >用户名:{{user.get_username}}</label><br/><br/>	
+				<label>昵称:{{user.username}}</label><br/><br/>
+			
+			<button type="button" class="btn btn-default" id="createClass" data-toggle="modal" data-target="#createModal" >创建课程</button>
+			<button class="btn btn-primary" id="revise">修改个人信息</button>
+			
+		</div>
+		<div class=" col-lg-5">
+			<br/>
+			<br/>
+			<table class="table table-bordered">
+				<thread>
+					<tr>
+						<th>课程</th>	
+						<th>学生数</th>
+						<th>大作业数</th>
+						<th>测试数</th>
+						<th>其他</th>
+					</tr>
+				</thread>
+					<tbody>
+					{%if courses%}
+                                        {% for cour in courses %}
+						{%if cour%}
+                                            <tr>
+                                               <td><a href="{% url 'teacher_course' cour.name %}">{{cour.name}}</a></td>
+					       <td>{{cour.number_student}}</td>
+                                               <td>{{cour.number_project}}</td>
+					       <td>{{cour.number_test}}</td>
+					       <td><form action="{% url 'delete_course' %}" method="POST"><input type="hidden" name="course" value="{{cour.id}}"/><input type="submit" class="btn btn-default" value="删除"/></form></td>
+					    </tr>  
+					{%endif%}
+                                        {%endfor%}
+					{%endif%}
+					<!--
+					<tr>
+						<td>Network</td>
+						<td>30</td>
+						<td>3</td>	
+					</tr>
+					<tr>
+						<td>Information</td>	
+						<td>100</td>
+						<td>2</td>
+					</tr>
+					-->
+				</tbody>
+			</table>	
+		</div>
+	</div>
+</div>
+
+ <!--Create Class Modal-->
+			<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&times;</span>
+								<span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="createModalLabel">创建课程</h4>
+						</div><!--end of modal header-->
+						<div class="modal-body">
+							<form role="form-horizontal" method="POST" action="{% url 'create_course' %}">
+								<div class="form-group">
+									<label for="course-name" class="control-label">课程名:</label>
+									<input type="text" class="form-control" id="course-name" name="course-name" />
+								</div>
+								<div class="form-group">
+									<label for="student-number" class="control-label">最大人数:</label>	
+									<input type="text" class="form-control" id="max-number" name="max-number"/>
+								</div>
+								<div class="form-group">
+									<input class="btn btn-primary" type="submit" value="提交"/>
+								</div>
+							</form>	
+						</div><!--end of modal body-->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
+						</div><!--end of footer-->
+					</div><!--end of content-->
+				</div><!--end of dialog-->	
+			</div><!---end of modal-->
+		{%if message%}
+		    <script>
+			alert(message);
+		    </script>
+		{%endif%}
+{%endblock%}

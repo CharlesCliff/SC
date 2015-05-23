@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+    
+    <!-- <include
+        android:id="@+id/login_view"
+        android:layout_alignParentBottom="true"
+        layout="@layout/login_float_window"
+        android:visibility="visible" /> -->
+    
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        app:context=".GuideActivity" >
+    </android.support.v4.view.ViewPager>
+    
+    
+    <LinearLayout  
+    android:layout_width="fill_parent"  
+    android:layout_height="wrap_content"
+    android:layout_weight="0.4"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/guide_register_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/register"
+        android:textColor="@color/white"
+        android:background="@color/black" />
+
+    <Button
+        android:id="@+id/guide_login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/black_fragment_layer_list"
+        android:text="@string/login"
+        android:textColor="@color/black" />
+  
+</LinearLayout>  
+    
+
+</LinearLayout>

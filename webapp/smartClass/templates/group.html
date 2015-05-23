@@ -1,0 +1,63 @@
+{%extends base.html%}
+{%load bootstrap3%}
+{%bootstrap_css%}
+{%bootstrap_javascript%}
+{#title block#}
+{%block title%}
+    {{title}}
+{%endblock%}
+{%block middle%}
+<div class="container-fluid">
+	
+	<div class="row">
+		<div class="col-lg-offset-2 col-lg-4">
+			<h1>Big Work Name</h1>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-lg-offset-3 col-lg-8" id="">
+			
+			<div class="container">
+				<div class="col-lg-3">
+					<h4>Avilable Names:</h4>
+				</div>
+				<div class="col-lg-4">
+					<ol>
+						<li>zhi hui ke tang</li>
+						<li>che zai wang luo</li>
+						<li>3D Map</li>
+						<li>What's App</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>		
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-3">
+			<h4>Group Information</h4>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Group Number</th>
+						<th>Question Number</th>
+						<th>Members</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>zhi hui ke tang</td>
+						<td> chen yang,li zheng tang</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>che zai wang luo</td>
+						<td>duan yi chun</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{%endblock%}

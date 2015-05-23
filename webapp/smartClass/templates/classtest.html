@@ -1,0 +1,44 @@
+{%extends base.html%}
+{%load bootstrap3%}
+{%bootstrap_css%}
+{%bootstrap_javascript%}
+{#title block#}
+{%block title%}
+    {{title}}
+{%endblock%}
+{%block middle%}
+<!--class test part-->
+<div class="container-fluid">
+	<div	class="row">
+		<div class="col-lg-3 col-lg-offset-2">
+			<h1>Test Name</h1>	
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-4 col-lg-offset-2">
+			<h4>Content</h4>
+			<pre></pre>
+		</div>
+		<div class="col-lg-6">
+			<table class="table table-bordered" id="testtable">
+				<thead>
+					<tr>
+						<th>QNumber</th>
+						<th>Answer</th>
+						<th>Number</th>
+						<th>Accuracy</th>
+					</tr>	
+				</thead>	
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>A</td>
+						<td>15</td>
+						<td>45%</td>
+					</tr>	
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{%endblock%}

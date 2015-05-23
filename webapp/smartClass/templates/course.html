@@ -1,0 +1,162 @@
+{%extends "base.html"%}
+{%load staticfiles%}
+{#title block#}
+{%block title%}
+    {{title}}
+{%endblock%}
+{%block middle%}
+	<!--Course part-->
+<div class="container-fluid">
+	<div class="col-lg-8 col-lg-offset-2"	>
+			<div class="container" id="baseinfo">
+				<div class="row">
+					<h1>{{course.name}}</h1>
+				</div>
+				<br/>
+				<div class="row">
+					<div class="col-lg-4 col-lg-offset-1">
+							<p>老师:{{request.user.username}}</p><br/>
+							<p>学生数:{{course.number_student}}</p>
+					</div>
+					<div class="col-lg-4">
+							<button type="button" class="btn btn-primary" id="createtest" data-toggle="modal" data-target="#createTestModal">创建测试</button>
+							<br/><br/>
+							<button type="button" class="btn btn-primary" id="creatework" data-toggle="modal" data-target="#createWorkModal">创建大作业</button>
+					</div>
+				</div>	
+			</div><!--./baseinfo-->
+			<br/>
+			<br/>
+			<div class="container" id="courseinfo">
+				<div class="col-lg-9">
+					<table class="table table-bordered" id="courses">
+						<thead>
+							<tr>
+								<th>测试名称</th>
+								<th>日期</th>
+								<th>参加人数</th>
+								<th>题目数</th>
+								<th>文件</th>
+								<th>其他</th>
+							</tr>
+						</thead>
+						<tbody>
+							{%if tests%}
+								{% for t in tests %}
+									{%if t%}
+									<tr>
+										<td><a href="{% url 'course_test' t.name %}">{{t.name}}</a></td> 
+										<td></td> <td>{{t.number_student}}</td> 
+										<td>{{t.question_number}}</td><td></td>
+										<td><form action="{%url 'delete_test'%}" method="POST"><input type="hidden" name="test" value="{{t.id}}"/>
+											  <input type="submit" class="btn btn-primary" value="删除" />
+										</form></td>
+									</tr>
+								{%endif%}
+								{%endfor%}
+							{%endif%}
+						</tbody>
+					</table>	
+				</div>
+			</div><!--end of course-info-->
+			
+			<br/>
+			<br/>
+			<div class="container" id="bigwork">
+				<div class="col-lg-9">
+					<table class="table table-bordered" id="works">
+						<thead>
+							<tr>
+								<th>大作业</th>
+								<th>题目数</th>
+								<th>是否分组</th>
+								<th>分组数</th>
+								<th>截止日期</th>
+								<th>其他</th>
+							</tr>
+						</thead>
+						<tbody>
+							{%if projects%}
+								{%for p in projects%}
+									{%if p%}
+									<tr>
+										<td><a href="{% url 'course_project' p.name %}">{{p.name}}</a></td>
+										<td></td><td></td><td></td><td></td>
+										<td><form action="{%url 'delete_project'%}" method="POST"><input type="hidden" name="project" value="{{p.id}}"/>
+											  <input type="submit" class="btn btn-primary" value="删除" />
+										</form></td>
+									</tr>
+								{%endif%}
+								{%endfor%}
+							{%endif%}
+						</tbody>
+					</table>	
+				</div>
+			</div><!--end of bigwork-->
+			
+	</div>
+</div>
+ <!--Create Test Modal-->
+			<div class="modal fade" id="createTestModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&times;</span>
+								<span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="createModalLabel">创建测试</h4>
+						</div><!--end of modal header-->
+						<div class="modal-body">
+							<form role="form-horizontal" method="POST" action="{% url 'create_test' %}">
+								<div class="form-group">
+									<label for="test-name" class="control-label">测试名称:</label>
+									<input type="text" class="form-control" id="test-name" name="testname" />
+								</div>
+								<div class="form-group">
+									<label for="student-number" class="control-label">问题数:</label>	
+									<input type="text" class="form-control" id="max-number" name="q_number"/>
+								</div>
+								<div class="form-group">
+									<input class="btn btn-primary" type="submit" value="提交"/>
+								</div>
+							</form>	
+						</div><!--end of modal body-->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>	
+						</div><!--end of footer-->
+					</div><!--end of content-->
+				</div><!--end of dialog-->	
+			</div><!---end of modal-->
+ <!--Create Work Modal-->
+			<div class="modal fade" id="createWorkModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&times;</span>
+								<span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="createModalLabel">创建大作业</h4>
+						</div><!--end of modal header-->
+						<div class="modal-body">
+							{%csrf_token%}
+							<form role="form-horizontal" method="POST" action="{%url 'create_project' %}">
+								<div class="form-group">
+									<label for="work-name" class="control-label">大作业名称:</label>
+									<input type="text" class="form-control" id="work-name" name="projectname" />
+								</div>
+								
+								<div class="form-group">
+									<input class="btn btn-primary" type="submit" value="提交"/>
+								</div>
+								
+							</form>	
+						</div><!--end of modal body-->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>	
+						</div><!--end of footer-->
+					</div><!--end of content-->
+				</div><!--end of dialog-->	
+			</div><!---end of modal-->
+{%endblock%}

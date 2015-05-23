@@ -1,0 +1,48 @@
+{%extends "base.html"%}
+{#title block#}
+{%block title%}
+    {{title}}
+{%endblock%}
+{%block middle%}
+{%load staticfiles %}
+   <div class="container" >
+    	<div class="col-lg-6 col-md-6 col-sm-6" id="login_img">
+    	<img src="{% static "images/pku_view_1.jpg" %}" class="img-rounded" alt="Cinque Terre" width=300 height=300>
+    	</div>
+    	<div class="col-lg-6 col-md-6 col-sm-6" id="login_form">
+               {%if errors %}
+                   {%for err in errors %}
+                     <p>Error:{{err}}</p>
+                   {%endfor%}
+               {%endif%}
+    		<form id="loginform" role="form" class="form-horizontal" action="{%url 'teacher_login' %}" method="POST" onsubmit="checkUser()">
+    			<div class="form-group">
+    				<label for="username" class="label-control col-lg-3 col-md-3 col-sm-3">用户名 :</label>
+    				<div class=" col-lg-5 col-md-5 col-sm-5">
+    					<input type="text" class="form-control col-lg-4 col-md-3 col-sm-3" id="username" name="username"/>
+    				</div>
+    			</div>
+    			<div class="form-group">
+    				<label for="passwd" class="label-control col-lg-3 col-md-3 col-sm-3">密码:</label>
+    				<div class="col-lg-5 col-md-5 col-sm-5">
+    					<input type="password" class="form-control col-lg-5 col-md-5 col-sm-5" id="passwd" name="password" />
+    				</div>
+    			</div>
+    			<div class="form-group">
+    				<input class="btn btn-primary col-lg-offset-4 col-md-offset-4 col-sm-offset-4" type="submit" value="提交"/>
+    				<button class="btn btn-default" type="reset">重置</button>
+    			</div>
+    		</form>
+    	</div>
+    </div>
+<script type="text/javascript">
+    function checkUser(){
+	user = document.getElementById("username").value;
+        passwd = document.getElementById("password").value;
+        if(""==user){alert("user is null");return false;}
+        if(""==passwd){alert("password is null");return false;}
+        return true;
+}
+</script>
+    <!--end of register part-->
+{%endblock%}

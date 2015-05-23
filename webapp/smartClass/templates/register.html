@@ -1,0 +1,65 @@
+{%extends "base.html"%}
+{#title block#}
+{%block title%}
+    {{title}}
+{%endblock%}
+{%block middle%}
+{%load staticfiles%}
+   <div class="container" >
+     <div class="row">
+       <br/><br/><br/>
+     </div>
+   <div class="container" >
+    	<div class="col-lg-4 col-lg-offset-2" id="register_img">
+    	<img src="{% static "images/pku_view_1.jpg" %}" class="img-rounded" alt="Cinque Terre" width=300 height=300>
+    	</div>
+    	<div class="col-lg-6" id="register_form">
+                {%if errors%}
+                    {%for err in errors %}
+                        <p>Errors:{{err}}</p>
+                    {%endfor%}
+                {%endif%}
+    		<form role="form" class="form-horizontal" action="{% url 'teacher_register'%}" method="POST" id="registerform">
+    			<div class="form-group">
+    				<label for="username" class="label-control col-lg-3">用户名 :</label>
+    				<div class=" col-lg-5">
+    					<input type="text" class="form-control col-lg-4" id="username" name="username"/>
+    				</div>
+    			</div>
+    			<div class="form-group">
+    				<label for="pwd" class="label-control col-lg-3">密码:</label>
+    				<div class=" col-lg-5">
+    					<input type="password" class="form-control col-lg-5" id="password" name="password"/>
+    				</div>
+    			</div>
+    			<div class="form-group">
+    				<label for="repwd" class="label-control col-lg-3">重复密码:</label>
+    				<div class="col-lg-5">
+    					<input type="password" class="form-control col-lg-5" id="password2" name="password2"/>
+    				</div>
+    			</div>
+    			<div class="form-group">
+    				<input class="btn btn-primary col-lg-offset-4" type="button"  value="提交" onclick="TheCheckUser()" />
+    				<button class="btn btn-default" type="reset">重置</button>
+    			</div>
+    		</form>
+    	</div>
+    </div>
+<script type="text/javascript">
+    function TheCheckUser(){
+   	 user = document.getElementById('username').value;
+         password = document.getElementById('password').value;
+         password2 = document.getElementById('password2').value;
+         if(user==""){
+             alert("username is null.");
+             return false;
+         }
+         if(""==password){ alert("password is null");return false;}
+         if(""==password2){ alert("password2 is null");return false;}
+         alert("all checked:"+user+" "+password+" " +password2);
+         document.getElementById('registerform').submit();
+         
+   }
+</script>
+    <!--end of register part-->
+{%endblock%}

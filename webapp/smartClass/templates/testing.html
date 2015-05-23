@@ -1,0 +1,140 @@
+{%extends "base.html"%}
+{%load staticfiles%}
+{#title block#}
+{%block title%}
+    {{title}}
+{%endblock%}
+{%block middle%}
+	<!--class test part-->
+<div class="container-fluid">
+	<div	class="row">
+		<div class="col-lg-3 col-lg-offset-2">
+			<h1>{{test.name}}</h1>	
+		</div>
+	</div>
+	<div class="col-lg-offset-3 col-lg-8">
+		<div class="col-lg-3">
+		<button class="btn btn-primary" data-toggle="modal" data-target="#addAnswerModal">添加答案</button>
+		</div>
+		
+		{%if beginstatus %}
+		<div class="col-lg-3">
+			
+			<form method="POST" action="{%url 'course_begin_test' %}">
+				<input class="btn btn-primary" type="submit" value="开始测试"/>
+			</form>
+		</div>
+		{%endif%}	
+		{%if endstatus%}
+		<div class="col-lg-3">
+			<form method="POST" action="{%url 'course_end_test' %}">
+				<input class="btn btn-primary" type="submit" value="结束测试"/>
+			</form>
+		</div>
+		{%endif%}
+		{%if rollbackstatus%}
+		<div class="col-lg-3">
+			<form method="POST" action="{%url 'course_rollback_test' %}">
+				<input class="btn btn-primary" type="submit" value="重新测试"/>
+			</form>
+		</div>
+		{%endif%}
+	</div>
+	<br/><br/>
+	<div class="container">
+	<div class="col-lg-6 col-lg-offset-2">
+		
+		
+			<table class="table table-bordered" id="testtable">
+				<thead>
+					<tr>
+						<th>题目编号</th>
+						<th>答案</th>
+						<th>测试人数</th>
+						<th>正确率</th>
+					</tr>	
+				</thead>	
+				<tbody>
+					{%if test_answer%} 
+						{%for ta in test_answer%}
+							<tr>
+								<td>{{ta.aid}}</td>
+								<td>{{ta.answer}}</td>
+								<td>{{test.number_student}}</td>
+								<td>{{ta.accuracy}}</td>
+							</tr>
+						{%endfor%}
+					{%endif%}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="container">
+		<div class="col-lg-9 col-lg-offset-2">
+			<h4>测试内容</h4>
+			<form enctype="multipart/form-data" action="{% url 'test_upload_file' %}" method="POST">
+				<div class="form-group">
+				<input type="file" name="testfile"/>
+				<input type="submit" value="提交" class="btn btn-primary"/>
+				</div>
+			</form>
+			<embed width="100%" height="600px" src="{% static  test.file_url %}" type="application/pdf">
+		</div>
+	</div>
+</div>
+
+
+  <!--Add Answer Modal-->
+			<div class="modal fade" id="addAnswerModal" tabindex="-1" role="dialog" aria-labelledby="addAnswerModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&times;</span>
+								<span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="addAnswerModalLabel">添加答案</h4>
+						</div><!--end of modal header-->
+						<div class="modal-body">
+							<form role="form-horizontal" method="POST" action="{% url 'test_add_answer' %}">
+								<div class="container" id="answer_list">
+									<div class="form-group">
+										<div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1">
+											<ul>
+												{%for i in answer_range%}
+													<li><label>{{i}}</label></li>
+													<li><label>题目</label>
+														<input type="text" class="form-control" name="question_{{i}}"/> 
+														<label>选项</label>
+														<input type="text" class="form-control" name="choice_{{i}}"/>
+														<label>答案</label>
+														<input type="text" class="form-control" name="answer_{{i}}" />
+													</li>
+													
+												{%endfor%}
+											</ul>
+										</div>
+									</div>
+								</div><!--end of answer list-->
+								<div class="row">
+									<div class="form-group">
+										<div class="col-lg-offset-9 col-md-offset-8 col-sm-offset-8">
+											<input class="btn btn-primary" type="submit" value="提交"/>
+										</div>
+									</div>
+								</div>				
+							</form>	
+						</div><!--end of modal body-->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>	
+						</div><!--end of footer-->
+					</div><!--end of content-->
+				</div><!--end of dialog-->	
+			</div><!---end of modal-->
+
+	<script type="text/javascript">
+		function begintest(){
+			
+		}
+	</script>
+{%endblock%}
